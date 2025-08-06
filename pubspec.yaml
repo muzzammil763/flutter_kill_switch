@@ -1,0 +1,22 @@
+name: flutter_kill_switch
+description: A Flutter package that provides a kill switch functionality to remotely disable apps using Firebase Firestore.
+version: 1.0.1
+homepage: https://github.com/your-username/flutter_kill_switch
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+  flutter: ">=3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cloud_firestore: ^6.0.0
+  cupertino_icons: ^1.0.8
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^2.0.0
+
+flutter:
+  uses-material-design: true
