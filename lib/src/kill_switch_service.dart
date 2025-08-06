@@ -10,32 +10,46 @@ class KillSwitchService {
 
   /// Initialize the kill switch listener for the app
   static void initializeKillSwitchListener(BuildContext context) {
-    _firestore
-        .collection(_collectionPath)
-        .doc(_documentId)
-        .snapshots()
-        .listen((snapshot) {
-      if (snapshot.exists) {
-        final data = snapshot.data() as Map<String, dynamic>;
-        final isKillSwitchEnabled = data['enabled'] as bool? ?? false;
-        
-        if (isKillSwitchEnabled) {
-          _showKillSwitchDialog(context);
+    // Delay initialization to ensure app is fully loaded
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _firestore
+          .collection(_collectionPath)
+          .doc(_documentId)
+          .snapshots()
+          .listen((snapshot) {
+        if (snapshot.exists) {
+          final data = snapshot.data() as Map<String, dynamic>;
+          final isKillSwitchEnabled = data['enabled'] as bool? ?? false;
+          
+          if (isKillSwitchEnabled) {
+            // Check if context is still valid and has a navigator
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+              if (context.mounted && Navigator.of(context, rootNavigator: true).mounted) {
+                _showKillSwitchDialog(context);
+              }
+            });
+          }
         }
-      }
+      });
     });
   }
 
   /// Show the kill switch dialog when app is disabled
   static void _showKillSwitchDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) => PopScope(
-        canPop: false,
-        child: const KillSwitchDialog(),
-      ),
-    );
+    try {
+      if (context.mounted) {
+        showDialog(
+          context: context,
+          barrierDismissible: false,
+          builder: (context) => PopScope(
+            canPop: false,
+            child: const KillSwitchDialog(),
+          ),
+        );
+      }
+    } catch (e) {
+      debugPrint('Error showing kill switch dialog: $e');
+    }
   }
 
   /// Update kill switch state in Firestore

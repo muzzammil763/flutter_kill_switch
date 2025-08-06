@@ -10,7 +10,7 @@ class ConfirmationDialog extends StatefulWidget {
 }
 
 class _ConfirmationDialogState extends State<ConfirmationDialog> {
-  final String _targetText = 'IWANNAENABLE';
+  final String _targetText = 'I KNOW WHAT I AM DOING';
   String _currentText = '';
 
 
@@ -67,7 +67,54 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
                 children: [
                   Expanded(
                     child: Text(
-                      _buildDisplayText(),
+                      _currentText,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'monospace',
+                        letterSpacing: 2,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            
+            // Target text display
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[600]!),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[800],
+              ),
+              child: Text(
+                _targetText,
+                style: TextStyle(
+                  color: Colors.grey[400],
+                  fontSize: 14,
+                  fontFamily: 'monospace',
+                  letterSpacing: 1,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            const SizedBox(height: 16),
+            
+            // Text field display
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.grey[600]!),
+                borderRadius: BorderRadius.circular(8),
+                color: Colors.grey[800],
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      _currentText,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
@@ -91,13 +138,16 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
               child: Column(
                 children: [
                   // First row
-                  _buildKeyboardRow(['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']),
+                  _buildKeyboardRow(['A', 'B', 'C', 'D', 'E', 'F', 'G']),
                   const SizedBox(height: 8),
                   // Second row
-                  _buildKeyboardRow(['J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R']),
+                  _buildKeyboardRow(['H', 'I', 'J', 'K', 'L', 'M', 'N']),
                   const SizedBox(height: 8),
                   // Third row
-                  _buildKeyboardRow(['S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']),
+                  _buildKeyboardRow(['O', 'P', 'Q', 'R', 'S', 'T', 'U']),
+                  const SizedBox(height: 8),
+                  // Fourth row
+                  _buildKeyboardRow(['V', 'W', 'X', 'Y', 'Z']),
                   const SizedBox(height: 12),
                   // Backspace button
                   SizedBox(
@@ -167,19 +217,27 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 2),
-        child: ElevatedButton(
-          onPressed: () => _addLetter(letter),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.grey[700],
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            minimumSize: const Size(0, 40),
-          ),
-          child: Text(
-            letter,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
+        child: Material(
+          color: Colors.transparent,
+          child: InkWell(
+            onTap: () => _addLetter(letter),
+            borderRadius: BorderRadius.circular(8),
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: 8),
+              decoration: BoxDecoration(
+                color: Colors.grey[700],
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: Center(
+                child: Text(
+                  letter,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
             ),
           ),
         ),
@@ -187,21 +245,5 @@ class _ConfirmationDialogState extends State<ConfirmationDialog> {
     );
   }
 
-  String _buildDisplayText() {
-    String display = '';
-    for (int i = 0; i < _targetText.length; i++) {
-      if (i < _currentText.length) {
-        // Show typed character
-        if (_currentText[i] == _targetText[i]) {
-          display += _currentText[i]; // Correct letter in white
-        } else {
-          display += _currentText[i]; // Wrong letter (will be styled red)
-        }
-      } else {
-        // Show hint character in low opacity
-        display += _targetText[i];
-      }
-    }
-    return display;
-  }
+
 }

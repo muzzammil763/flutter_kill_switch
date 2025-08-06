@@ -89,9 +89,9 @@ class _FlutterKillSwitchState extends State<FlutterKillSwitch> {
                     'KILL SWITCH',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 48,
+                      fontSize: 44,
                       fontWeight: FontWeight.bold,
-                      letterSpacing: 4,
+                  
                     ),
                   ),
                   const SizedBox(height: 80),
@@ -112,12 +112,11 @@ class _FlutterKillSwitchState extends State<FlutterKillSwitch> {
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: const Text(
-                      'Warning: Disabling the kill switch may expose your data to the network.',
+                      "Warning: Don't do this, if you don't know what you are doing.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.white70,
                         fontSize: 18,
-                        height: 1.4,
                       ),
                     ),
                   ),
